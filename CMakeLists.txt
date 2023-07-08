@@ -15,7 +15,7 @@ set(GSL_PATH "${PROJECT_SOURCE_DIR}/deps/GSL")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
 
 # Options
-set(BUILD_DEMOS ON CACHE BOOL "Whether to build demo executables for certain individual custom widgets")
+set(BUILD_DEMOS OFF CACHE BOOL "Whether to build demo executables for certain individual custom widgets")
 
 include_directories("${GSL_PATH}/include")
 

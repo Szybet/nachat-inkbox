@@ -9,6 +9,9 @@ LoginDialog::LoginDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::LoginDialog) {
   ui->setupUi(this);
 
+  qDebug() << "Full screen LoginDialog";
+  this->showFullScreen();
+
   ui->buttonBox->addButton(tr("Quit"), QDialogButtonBox::RejectRole);
   ui->buttonBox->addButton(tr("Sign In"), QDialogButtonBox::AcceptRole);
 

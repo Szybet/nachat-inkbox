@@ -18,6 +18,7 @@
 #include <QMenu>
 #include <QDesktopServices>
 #include <QCryptographicHash>
+#include <QPainterPath>
 
 #include <QDebug>
 

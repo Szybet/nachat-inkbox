@@ -3,7 +3,7 @@
 
 #include <experimental/optional>
 
-#include <QWidget>
+#include <QDialog>
 
 #include "QStringHash.hpp"
 
@@ -35,7 +35,7 @@ class EntryBox;
 class MemberList;
 class ThumbnailCache;
 
-class RoomView : public QWidget
+class RoomView : public QDialog
 {
   Q_OBJECT
 

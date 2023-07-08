@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include <QWidget>
+#include <QDialog>
 
 #include "matrix/Room.hpp"
 
@@ -20,7 +20,7 @@ namespace Ui {
 class ChatWindow;
 }
 
-class ChatWindow : public QWidget
+class ChatWindow : public QDialog
 {
   Q_OBJECT
 

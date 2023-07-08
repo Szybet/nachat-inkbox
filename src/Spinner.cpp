@@ -6,6 +6,7 @@
 #include <QConicalGradient>
 #include <QDebug>
 #include <QObject>
+#include <QPainterPath>
 
 Spinner::Spinner(QWidget *parent) : QWidget(parent) {
   connect(&timer_, SIGNAL(timeout()), this, SLOT(update()));

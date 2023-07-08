@@ -26,17 +26,11 @@ MainWindow::MainWindow(matrix::Session &session)
       thumbnail_cache_{devicePixelRatioF()}, rooms_{session, initial_icon_size(*this), devicePixelRatioF()} {
   ui->setupUi(this);
 
+  qDebug() << "Full screen mainwindow";
+  this->showFullScreen();
+
   ui->status_bar->addPermanentWidget(sync_label_);
   ui->status_bar->addPermanentWidget(progress_);
-
-  auto tray = new QSystemTrayIcon(QIcon::fromTheme("user-available"), this);
-  tray->setContextMenu(ui->menu_matrix);
-  connect(tray, &QSystemTrayIcon::activated, [this](QSystemTrayIcon::ActivationReason reason) {
-      if(reason == QSystemTrayIcon::Trigger) {
-        setVisible(!isVisible());
-      }
-    });
-  tray->show();
 
   connect(ui->action_log_out, &QAction::triggered, this, &MainWindow::log_out);
 
@@ -99,8 +93,7 @@ MainWindow::MainWindow(matrix::Session &session)
         windows.insert(window);
       }
       for(auto window : windows) {
-        window->show();
-        window->activateWindow();
+        window->exec();
       }
     });
   connect(ui->room_list, &QAbstractItemView::iconSizeChanged, &rooms_, &JoinedRoomListModel::icon_size_changed);
@@ -186,9 +179,7 @@ ChatWindow *MainWindow::spawn_chat_window() {
   connect(window, &ChatWindow::pop_out, [this](const matrix::RoomID &r, RoomView *v) {
       auto w = spawn_chat_window();
       w->add(*session_.room_from_id(r), v);
-      w->show();
-      w->raise();
-      w->activateWindow();
+      w->exec();
     });
   return window;
 }
