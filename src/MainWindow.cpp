@@ -93,7 +93,8 @@ MainWindow::MainWindow(matrix::Session &session)
         windows.insert(window);
       }
       for(auto window : windows) {
-        window->exec();
+        //window->exec();
+        window->show();
       }
     });
   connect(ui->room_list, &QAbstractItemView::iconSizeChanged, &rooms_, &JoinedRoomListModel::icon_size_changed);
@@ -179,7 +180,8 @@ ChatWindow *MainWindow::spawn_chat_window() {
   connect(window, &ChatWindow::pop_out, [this](const matrix::RoomID &r, RoomView *v) {
       auto w = spawn_chat_window();
       w->add(*session_.room_from_id(r), v);
-      w->exec();
+      // w->exec();
+      w->show();
     });
   return window;
 }

@@ -54,6 +54,7 @@ private:
 
   void update_title();
   void current_changed(int i);
+  QSize screen;
 };
 
 #endif

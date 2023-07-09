@@ -10,11 +10,26 @@
 #include "RoomView.hpp"
 #include "RoomViewList.hpp"
 
+#include "smallkeyboard.h"
+
 ChatWindow::ChatWindow(ThumbnailCache &cache, QWidget *parent)
     : QDialog(parent), ui(new Ui::ChatWindow), room_list_(new RoomViewList(this)), cache_{cache} {
     ui->setupUi(this);
 
-    this->setFixedSize(QGuiApplication::screens()[0]->geometry().size());
+    screen = QGuiApplication::screens()[0]->geometry().size();
+    qDebug() << "Screen:" << screen;
+    this->setFixedSize(screen.width(), (screen.height() / 2) + (screen.height() / 6));
+    this->move(0, 0);
+
+    Qt::WindowFlags flags = this->windowFlags();
+    this->setWindowFlags(flags | Qt::Tool);
+
+    // Very interesting - parent must be parent because it cant just go outside of this window
+    smallkeyboard* keyboard = new smallkeyboard(parent);
+    keyboard->show();
+    keyboard->setFixedSize(screen.width(), (screen.height() / 2) - (screen.height() / 6));
+    keyboard->move(0, (screen.height() / 2) + (screen.height() / 6));
+    keyboard->raise();
 
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::Window);
