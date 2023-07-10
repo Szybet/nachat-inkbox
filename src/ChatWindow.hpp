@@ -7,6 +7,7 @@
 #include <QDialog>
 
 #include "matrix/Room.hpp"
+#include "smallkeyboard.h"
 
 class RoomView;
 class RoomViewList;
@@ -51,7 +52,7 @@ private:
   RoomViewList *room_list_;
   std::unordered_map<matrix::RoomID, RoomView *> rooms_;
   ThumbnailCache &cache_;
-
+  smallkeyboard* keyboard;
   void update_title();
   void current_changed(int i);
   QSize screen;

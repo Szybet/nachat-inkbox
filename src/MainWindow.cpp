@@ -26,6 +26,8 @@ MainWindow::MainWindow(matrix::Session &session)
       thumbnail_cache_{devicePixelRatioF()}, rooms_{session, initial_icon_size(*this), devicePixelRatioF()} {
   ui->setupUi(this);
 
+  this->setAnimated(false);
+
   qDebug() << "Full screen mainwindow";
   this->showFullScreen();
 

@@ -82,5 +82,7 @@ int main(int argc, char *argv[]) {
     session_established();
   }
 
+  app.setCursorFlashTime(0);
+
   return app.exec();
 }

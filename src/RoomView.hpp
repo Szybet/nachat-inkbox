@@ -47,6 +47,7 @@ public:
   matrix::Room &room() { return room_; }
 
   void selected();
+  EntryBox * giveMeText();
   // Notify that user action has brought the room into view. Triggers read receipts.
 
 private:

@@ -132,3 +132,7 @@ void RoomView::update_last_read() {
     if(!r) return;
     timeline_view_->set_last_read(r->event);
 }
+
+EntryBox* RoomView::giveMeText() {
+    return entry_;
+}

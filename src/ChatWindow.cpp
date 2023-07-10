@@ -9,8 +9,7 @@
 
 #include "RoomView.hpp"
 #include "RoomViewList.hpp"
-
-#include "smallkeyboard.h"
+#include "EntryBox.hpp"
 
 ChatWindow::ChatWindow(ThumbnailCache &cache, QWidget *parent)
     : QDialog(parent), ui(new Ui::ChatWindow), room_list_(new RoomViewList(this)), cache_{cache} {
@@ -25,7 +24,7 @@ ChatWindow::ChatWindow(ThumbnailCache &cache, QWidget *parent)
     this->setWindowFlags(flags | Qt::Tool);
 
     // Very interesting - parent must be parent because it cant just go outside of this window
-    smallkeyboard* keyboard = new smallkeyboard(parent);
+    keyboard = new smallkeyboard(parent);
     keyboard->show();
     keyboard->setFixedSize(screen.width(), (screen.height() / 2) - (screen.height() / 6));
     keyboard->move(0, (screen.height() / 2) + (screen.height() / 6));
@@ -76,6 +75,7 @@ ChatWindow::ChatWindow(ThumbnailCache &cache, QWidget *parent)
 ChatWindow::~ChatWindow() { delete ui; }
 
 void ChatWindow::add(matrix::Room &r, RoomView *v) {
+    qDebug() << "add called";
     v->setParent(this);
     rooms_.emplace(
         std::piecewise_construct,
@@ -88,9 +88,11 @@ void ChatWindow::add(matrix::Room &r, RoomView *v) {
     }
     room_list_->activate(r.id());
     v->setFocus();
+    keyboard->start(v->giveMeText());
 }
 
 void ChatWindow::add_or_focus(matrix::Room &room) {
+    qDebug() << "add_or_focus called";
     RoomView *view;
     if(rooms_.find(room.id()) == rooms_.end()) {
         view = new RoomView(cache_, room, this);
@@ -100,6 +102,7 @@ void ChatWindow::add_or_focus(matrix::Room &room) {
         view = static_cast<RoomView*>(ui->room_stack->currentWidget());
     }
     view->setFocus();
+    keyboard->start(view->giveMeText());
 }
 
 void ChatWindow::room_display_changed(matrix::Room &room) {
