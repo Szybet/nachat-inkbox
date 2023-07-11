@@ -43,10 +43,6 @@ void showImage::start(QUrl url) {
     qDebug() << "image:" << image;
     ui->label->setPixmap(image);
 
-    QFile file("/tmp/file.png");
-    file.open(QIODevice::WriteOnly);
-    image.save(&file, "PNG");
-
     reply->deleteLater();
     qDebug() << "Showing image";
 }
