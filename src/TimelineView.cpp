@@ -28,6 +28,8 @@
 #include "RedactDialog.hpp"
 #include "EventSourceView.hpp"
 
+#include "showImage.h"
+
 using std::experimental::optional;
 
 namespace {
@@ -496,9 +498,12 @@ void EventBlock::handle_input(const QPointF &point, QEvent *input) {
       if(url.scheme() == "mxc") {
         url = matrix::Content{url}.url_on(parent_.homeserver());
       }
-      if(!QDesktopServices::openUrl(url)) {
-        qDebug() << "failed to open URL" << url.toString(QUrl::FullyEncoded);
-      }
+
+      qDebug() << "Opening image?" << url;
+      showImage* dialog = new showImage();
+      dialog->start(url);
+      dialog->exec();
+
     } else {
       input->ignore();
     }

@@ -11,6 +11,7 @@ qt5_wrap_ui(UI_HEADERS
   RedactDialog.ui
   JoinDialog.ui
   EventSourceView.ui
+  showImage.ui
 )
 
 ### Ereader dev library
@@ -55,6 +56,7 @@ add_executable(nachat WIN32
   EventSourceView.cpp
   ContentCache.cpp
   JoinedRoomListModel.cpp
+  showImage.cpp
   ${UI_HEADERS}
 )
 
