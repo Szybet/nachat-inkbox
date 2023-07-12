@@ -17,7 +17,7 @@ constexpr uint64_t CACHE_FORMAT_VERSION = 5;
 // corruption bug is fixed, or a previously ignored class of state is
 // persisted
 
-static constexpr char POLL_TIMEOUT_MS[] = "50000";
+static constexpr char POLL_TIMEOUT_MS[] = "600000";
 
 static const lmdb::val next_batch_key("next_batch");
 static const lmdb::val transaction_id_key("transaction_id");

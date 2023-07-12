@@ -40,6 +40,10 @@ void showImage::start(QUrl url) {
     QPixmap image;
     image.loadFromData(reply->readAll());
     image = image.scaledToWidth(QGuiApplication::screens()[0]->geometry().size().width());
+    int limit = QGuiApplication::screens()[0]->geometry().size().height() - ui->pushButton->height() - 70;
+    if(image.height() >= limit) {
+        image = image.scaledToHeight(limit);
+    }
     qDebug() << "image:" << image;
     ui->label->setPixmap(image);
 
