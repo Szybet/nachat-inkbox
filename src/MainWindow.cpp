@@ -27,12 +27,12 @@ MainWindow::MainWindow(matrix::Session &session)
   ui->setupUi(this);
 
   this->setAnimated(false);
+  progress_->deleteLater();
 
   qDebug() << "Full screen mainwindow";
   this->showFullScreen();
 
   ui->status_bar->addPermanentWidget(sync_label_);
-  ui->status_bar->addPermanentWidget(progress_);
 
   connect(ui->action_log_out, &QAction::triggered, this, &MainWindow::log_out);
 
@@ -67,7 +67,6 @@ MainWindow::MainWindow(matrix::Session &session)
 
   connect(&session_, &matrix::Session::sync_progress, this, &MainWindow::sync_progress);
   connect(&session_, &matrix::Session::sync_complete, [this]() {
-      progress_->hide();
       sync_label_->hide();
     });
 
@@ -93,6 +92,8 @@ MainWindow::MainWindow(matrix::Session &session)
         }
         window->add_or_focus(room);
         windows.insert(window);
+
+        qDebug() << "Test &QListView::activated";
       }
       for(auto window : windows) {
         //window->exec();
@@ -144,13 +145,6 @@ void MainWindow::highlight(const matrix::RoomID &room) {
 void MainWindow::sync_progress(qint64 received, qint64 total) {
   sync_label_->setText(tr("Synchronizing..."));
   sync_label_->show();
-  progress_->show();
-  if(total == -1 || total == 0) {
-    progress_->setMaximum(0);
-  } else {
-    progress_->setMaximum(1000);
-    progress_->setValue(1000 * static_cast<float>(received)/static_cast<float>(total));
-  }
 }
 
 RoomWindowBridge::RoomWindowBridge(matrix::Room &room, ChatWindow &parent) : QObject(&parent), room_(room), window_(parent) {

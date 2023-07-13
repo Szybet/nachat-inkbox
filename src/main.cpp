@@ -18,10 +18,15 @@ int main(int argc, char *argv[]) {
 
   QCoreApplication::setOrganizationName("nachat");
   QCoreApplication::setApplicationName("nachat");
-  QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
   QApplication app(argc, argv);
-  app.setQuitOnLastWindowClosed(false);
+
+  app.setStyle("windows");
+  QFile stylesheetFile("://eink.qss");
+  stylesheetFile.open(QFile::ReadOnly);
+  app.setStyleSheet(stylesheetFile.readAll());
+  stylesheetFile.close();
+  qDebug() << "Applied stylesheet for ereader";
 
   QSettings settings;
 
