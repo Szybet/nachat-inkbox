@@ -31,9 +31,7 @@ add_library(ereaderdev SHARED ${SRCS_dev})
 target_link_libraries(ereaderdev ${PROJECT_SOURCE_DIR}/deps/ereaderdev-lib/ereaderdev/build/libereaderdev.so)
 target_link_libraries(ereaderdev Qt5::Core Qt5::Widgets)
 ###
-### Qt kobo platform plugin
-include_directories(nachat ${PROJECT_SOURCE_DIR}/deps/qt5-kobo-platform-plugin/src/)
-###
+
 
 ### Resource files
 qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/resources/eink.qrc)
@@ -73,8 +71,15 @@ target_link_libraries(nachat
   Qt5::DBus
   ereaderdev
   matrix
-  ${PROJECT_SOURCE_DIR}/deps/qt5-kobo-platform-plugin/libkobo.so
 )
+
+### Qt kobo platform plugin
+# It's a plugin, so do it that way
+include_directories(${PROJECT_SOURCE_DIR}/deps/qt5-kobo-platform-plugin/src/)
+target_include_directories(nachat
+    PRIVATE ${PROJECT_SOURCE_DIR}/deps/qt5-kobo-platform-plugin/src/
+)
+###
 
 install(
   TARGETS nachat
