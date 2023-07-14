@@ -161,7 +161,7 @@ void MemberListModel::do_fetch() {
 
         auto it = self->index_.find(id);
         if(it == self->index_.end()) return;
-        
+
         QPixmap pixmap = decode(type, data);
 
         if(pixmap.width() > thumbnail.size().width() || pixmap.height() > thumbnail.size().height())

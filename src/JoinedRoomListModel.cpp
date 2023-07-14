@@ -113,7 +113,7 @@ void JoinedRoomListModel::update_avatar(RoomInfo &info) {
 
         auto it = self->index_.find(id);
         if(it == self->index_.end() || self->rooms_[it->second].avatar_generation != generation) return;
-        
+
         QPixmap pixmap = matrix::decode(type, data);
 
         if(pixmap.width() > thumbnail.size().width() || pixmap.height() > thumbnail.size().height())

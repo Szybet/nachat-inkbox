@@ -145,12 +145,6 @@ QMenu::item
   border-bottom: 5px solid transparent;
 }
 
-QMenu::indicator
-{
-    width: 20px;
-    height: 20px;
-}
-
 QMenu::indicator:exclusive:checked
 {
     image: url(://eink/checkbox-checked.png);
@@ -363,7 +357,7 @@ QScrollBar {
 }
 
 QScrollBar:vertical {
-    width: 35px
+    width: 55px
 }
 
 QScrollBar:horizontal {

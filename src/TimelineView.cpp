@@ -953,10 +953,10 @@ TimelineView::TimelineView(const QUrl &homeserver, ThumbnailCache &cache, QWidge
   {
     const int extent = devicePixelRatioF() * spinner_space() * .9;
     spinner_ = QPixmap(extent, extent);
-    spinner_.fill(Qt::transparent);
+    spinner_.fill(Qt::white);
     QPainter painter(&spinner_);
     painter.setRenderHint(QPainter::Antialiasing);
-    Spinner::paint(palette().color(QPalette::Shadow), palette().color(QPalette::Base), painter, extent);
+    Spinner::paint(palette().color(QPalette::Light), palette().color(QPalette::Light), painter, extent);
     spinner_.setDevicePixelRatio(devicePixelRatioF());
   }
 }
@@ -1098,7 +1098,7 @@ void TimelineView::paintEvent(QPaintEvent *) {
   const auto view = view_rect();
 
   QPainter painter(viewport());
-  painter.fillRect(viewport()->contentsRect(), palette().color(QPalette::Dark));
+  painter.fillRect(viewport()->contentsRect(), palette().color(QPalette::Light));
   painter.setPen(palette().color(QPalette::Text));
   painter.translate(QPointF(0, -view.top())); // Translate into space where y origin is bottom of first block
 
@@ -1116,7 +1116,7 @@ void TimelineView::paintEvent(QPaintEvent *) {
 
     {
       const auto hash = QCryptographicHash::hash(block.block().sender().value().toUtf8(), QCryptographicHash::Sha3_224);
-      const auto user_color = QColor::fromHsvF(static_cast<uint8_t>(hash[0]) * 1./255., 1, 1);
+      const auto user_color = QColor(0, 0, 0, 0);
 
       const QRectF outline(-padding, -half_spacing, view.width(), bounds.height() + spacing);
 

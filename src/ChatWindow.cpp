@@ -35,7 +35,6 @@ ChatWindow::ChatWindow(ThumbnailCache &cache, QWidget *parent)
 
     qDebug() << "Not adding things to qsplitter";
     connect(ui->room_stack, &QStackedWidget::currentChanged, this, &ChatWindow::current_changed);
-    ui->splitter->setCollapsible(1, false);
 
     connect(room_list_, &RoomViewList::activated, [this](const matrix::RoomID &room) {
         auto &view = *rooms_.at(room);
@@ -77,6 +76,7 @@ ChatWindow::~ChatWindow() { delete ui; }
 void ChatWindow::add(matrix::Room &r, RoomView *v) {
     qDebug() << "add called";
     v->setParent(this);
+    connect(v, &RoomView::closeParent, this, &ChatWindow::closeThisWidget);
     rooms_.emplace(
         std::piecewise_construct,
         std::forward_as_tuple(r.id()),
@@ -94,6 +94,7 @@ void ChatWindow::add(matrix::Room &r, RoomView *v) {
 void ChatWindow::add_or_focus(matrix::Room &room) {
     qDebug() << "add_or_focus called";
     RoomView *view;
+    connect(view, &RoomView::closeParent, this, &ChatWindow::closeThisWidget);
     if(rooms_.find(room.id()) == rooms_.end()) {
         view = new RoomView(cache_, room, this);
         add(room, view);
@@ -147,4 +148,10 @@ void ChatWindow::closeEvent(QCloseEvent *evt) {
 
 const matrix::RoomID &ChatWindow::focused_room() const {
     return static_cast<RoomView*>(ui->room_stack->currentWidget())->room().id();
+}
+
+void ChatWindow::closeThisWidget() {
+    qDebug() << "Chatwindow closing";
+    keyboard->close();
+    this->close();
 }

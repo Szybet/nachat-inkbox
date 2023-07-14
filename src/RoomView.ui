@@ -47,8 +47,8 @@
         <enum>Qt::TabFocus</enum>
        </property>
        <property name="icon">
-        <iconset theme="application-menu">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset resource="../resources/icons.qrc">
+         <normaloff>:/icons/menu.svg</normaloff>:/icons/menu.svg</iconset>
        </property>
       </widget>
      </item>
@@ -59,6 +59,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

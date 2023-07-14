@@ -6,6 +6,7 @@
 #include <QDialog>
 
 #include "QStringHash.hpp"
+#include "ChatWindow.hpp"
 
 namespace Ui {
 class RoomView;
@@ -40,7 +41,7 @@ class RoomView : public QDialog
   Q_OBJECT
 
 public:
-  explicit RoomView(ThumbnailCache &cache, matrix::Room &room, QWidget *parent = nullptr);
+  explicit RoomView(ThumbnailCache &cache, matrix::Room &room, ChatWindow *parent = nullptr);
   ~RoomView();
 
   const matrix::Room &room() const { return room_; }
@@ -49,6 +50,12 @@ public:
   void selected();
   EntryBox * giveMeText();
   // Notify that user action has brought the room into view. Triggers read receipts.
+
+public slots:
+  void closeChatWindow();
+
+signals:
+  void closeParent();
 
 private:
   Ui::RoomView *ui;

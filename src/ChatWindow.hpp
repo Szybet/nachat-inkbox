@@ -37,6 +37,9 @@ public:
 
   const matrix::RoomID &focused_room() const;
 
+public slots:
+  void closeThisWidget();
+
 signals:
   void focused(const matrix::RoomID &);
   void released(const matrix::RoomID &);
@@ -47,7 +50,9 @@ protected:
   void changeEvent(QEvent *event) override;
   void closeEvent(QCloseEvent *event) override;
 
-private:
+  private slots:
+
+  private:
   Ui::ChatWindow *ui;
   RoomViewList *room_list_;
   std::unordered_map<matrix::RoomID, RoomView *> rooms_;

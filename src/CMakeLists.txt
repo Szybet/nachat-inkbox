@@ -35,6 +35,7 @@ target_link_libraries(ereaderdev Qt5::Core Qt5::Widgets)
 
 ### Resource files
 qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/resources/eink.qrc)
+qt5_add_resources(QT_RESOURCES ${PROJECT_SOURCE_DIR}/resources/icons.qrc)
 
 add_subdirectory(matrix)
 

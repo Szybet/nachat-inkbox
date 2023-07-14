@@ -65,10 +65,9 @@ MainWindow::MainWindow(matrix::Session &session)
       }
     });
 
-  connect(&session_, &matrix::Session::sync_progress, this, &MainWindow::sync_progress);
   connect(&session_, &matrix::Session::sync_complete, [this]() {
       sync_label_->hide();
-    });
+  });
 
   ui->action_quit->setShortcuts(QKeySequence::Quit);
   connect(ui->action_quit, &QAction::triggered, this, &MainWindow::quit);
@@ -143,8 +142,7 @@ void MainWindow::highlight(const matrix::RoomID &room) {
 }
 
 void MainWindow::sync_progress(qint64 received, qint64 total) {
-  sync_label_->setText(tr("Synchronizing..."));
-  sync_label_->show();
+  sync_label_->hide();
 }
 
 RoomWindowBridge::RoomWindowBridge(matrix::Room &room, ChatWindow &parent) : QObject(&parent), room_(room), window_(parent) {

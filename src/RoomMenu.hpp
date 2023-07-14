@@ -2,6 +2,7 @@
 #define NATIVE_CHAT_ROOM_MENU_HPP_
 
 #include <QMenu>
+#include "RoomView.hpp"
 
 #include "matrix/Room.hpp"
 
@@ -9,7 +10,7 @@ class RoomMenu : public QMenu {
   Q_OBJECT
 
 public:
-  RoomMenu(matrix::Room &room, QWidget *parent = nullptr);
+  RoomMenu(matrix::Room &room, RoomView *parent = nullptr);
 
 private:
   matrix::Room &room_;

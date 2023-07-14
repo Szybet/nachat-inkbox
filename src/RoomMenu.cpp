@@ -9,11 +9,7 @@
 #include "matrix/Session.hpp"
 #include "MessageBox.hpp"
 
-RoomMenu::RoomMenu(matrix::Room &room, QWidget *parent) : QMenu(parent), room_(room) {
-  {
-    auto info = addAction(QIcon::fromTheme("emblem-information"), tr("&Info..."));
-  }
-
+RoomMenu::RoomMenu(matrix::Room &room, RoomView *parent) : QMenu(parent), room_(room) {
   {
     auto upload = addAction(QIcon::fromTheme("document-open"), tr("Upload &file..."));
     auto file_dialog = new QFileDialog(parent);
@@ -24,8 +20,8 @@ RoomMenu::RoomMenu(matrix::Room &room, QWidget *parent) : QMenu(parent), room_(r
   addSeparator();
 
   {
-    auto leave = addAction(QIcon::fromTheme("system-log-out"), tr("Leave"));
-    connect(leave, &QAction::triggered, &room_, &matrix::Room::leave);
+    auto Exit = addAction(QIcon::fromTheme("system-log-out"), tr("Exit"));
+    connect(Exit, &QAction::triggered, parent, &RoomView::closeParent);
   }
 }
 

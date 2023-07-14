@@ -21,7 +21,7 @@
 
 using std::experimental::optional;
 
-RoomView::RoomView(ThumbnailCache &cache, matrix::Room &room, QWidget *parent)
+RoomView::RoomView(ThumbnailCache &cache, matrix::Room &room, ChatWindow *parent)
     : QDialog(parent), ui(new Ui::RoomView),
     timeline_view_(new TimelineView(room.session().homeserver(), cache, this)),
     room_(room),
@@ -29,8 +29,6 @@ RoomView::RoomView(ThumbnailCache &cache, matrix::Room &room, QWidget *parent)
     member_list_(new matrix::MemberListModel(room, initial_icon_size(*this), devicePixelRatioF(), this)),
     entry_(new EntryBox{member_list_, this}) {
     ui->setupUi(this);
-
-    this->showFullScreen();
 
     connect(timeline_manager_, &matrix::TimelineManager::grew,
             [this](matrix::Direction dir, const matrix::TimelineCursor &begin, const matrix::RoomState &state, const matrix::event::Room &evt) {
@@ -65,7 +63,7 @@ RoomView::RoomView(ThumbnailCache &cache, matrix::Room &room, QWidget *parent)
 
     auto menu = new RoomMenu(room, this);
     connect(ui->menu_button, &QAbstractButton::clicked, [this, menu](bool) {
-        menu->popup(QCursor::pos());
+        menu->popup(ui->menu_button->pos());
     });
 
     ui->main->addWidget(timeline_view_);
@@ -96,10 +94,8 @@ RoomView::~RoomView() { delete ui; }
 
 void RoomView::topic_changed() {
     if(!room_.state().topic()) {
-        ui->topic->setTextFormat(Qt::RichText);
-        ui->topic->setText("<h2>" + room_.pretty_name() + "</h2>");
+        ui->topic->setText(room_.pretty_name());
     } else {
-        ui->topic->setTextFormat(Qt::PlainText);
         ui->topic->setText(*room_.state().topic());
     }
 }
@@ -114,7 +110,7 @@ void RoomView::command(const QString &name, const QString &args) {
         auto req = room_.session().join(args);
         connect(req, &matrix::JoinRequest::error, [=](const QString &msg) { qCritical() << tr("failed to join \"%1\": %2").arg(args).arg(msg); });
     } else {
-        qCritical() << tr("Unrecognized command: %1").arg(name);
+        qWarning() << tr("Unrecognized command: %1").arg(name);
     }
 }
 
@@ -135,4 +131,9 @@ void RoomView::update_last_read() {
 
 EntryBox* RoomView::giveMeText() {
     return entry_;
+}
+
+void RoomView::closeChatWindow() {
+    qDebug() << "Closing chat window...";
+    emit closeParent();
 }

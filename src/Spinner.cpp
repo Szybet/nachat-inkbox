@@ -43,10 +43,10 @@ QSize Spinner::sizeHint() const {
 void Spinner::resizeEvent(QResizeEvent *) {
   const auto extent = std::min(width(), height());
   pixmap_ = QPixmap(extent, extent);
-  pixmap_.fill(Qt::transparent);
+  pixmap_.fill(Qt::white);
   QPainter painter(&pixmap_);
   painter.setRenderHint(QPainter::Antialiasing);
-  paint(palette().color(QPalette::Shadow), palette().color(QPalette::Base), painter, extent);
+  paint(palette().color(QPalette::Light), palette().color(QPalette::Light), painter, extent);
 }
 
 void Spinner::paint(const QColor &head, const QColor &tail, QPainter &painter, int extent) {
@@ -58,14 +58,9 @@ void Spinner::paint(const QColor &head, const QColor &tail, QPainter &painter, i
   const qreal angle = 0;
   const qreal angular_gap = 45;
 
-  QConicalGradient gradient;
-  gradient.setCenter(extent/2.0, extent/2.0);
-  gradient.setAngle(angle - angular_gap / 2.0);
-  gradient.setColorAt(0, head);
-  gradient.setColorAt(1, tail);
-
-  QPen pen(QBrush(gradient), thickness);
-  pen.setCapStyle(Qt::RoundCap);
+  QPen pen(QBrush(QColor::fromRgb(0, 0, 0, 0)), thickness);
+  pen.setCapStyle(Qt::FlatCap);
+  pen.setJoinStyle(Qt::MiterJoin);
 
   QPainterPath path;
   path.arcMoveTo(inset, inset, diameter, diameter, angle);
