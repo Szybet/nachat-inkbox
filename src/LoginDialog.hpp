@@ -6,6 +6,7 @@
 #include <QDialog>
 
 #include "matrix/Matrix.hpp"
+#include "smallkeyboard.h"
 
 namespace Ui {
 class LoginDialog;
@@ -19,11 +20,21 @@ public:
   ~LoginDialog();
 
   void accept() override;
+  void reject() override;
 
   QString username() const;
   QString password() const;
   QString homeserver() const;
+  QSize screen;
+  smallkeyboard* keyboard;
+  void clickedUserName();
+  void clickedPassword();
+  void clickedServer();
+  QTimer* timer;
+  void clearCursor();
 
+public slots:
+  void checkFocus();
 private:
   Ui::LoginDialog *ui;
 };

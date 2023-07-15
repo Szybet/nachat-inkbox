@@ -34,7 +34,7 @@ MainWindow::MainWindow(matrix::Session &session)
 
   ui->status_bar->addPermanentWidget(sync_label_);
 
-  connect(ui->action_log_out, &QAction::triggered, this, &MainWindow::log_out);
+  connect(ui->action_log_out, &QAction::triggered, this, &MainWindow::askLogOut);
 
   connect(ui->action_join, &QAction::triggered, [this]() {
       QPointer<JoinDialog> dialog(new JoinDialog);
@@ -178,4 +178,13 @@ ChatWindow *MainWindow::spawn_chat_window() {
       w->show();
     });
   return window;
+}
+
+void MainWindow::askLogOut() {
+  QMessageBox::StandardButton reply;
+  reply = QMessageBox::question(this, "Confirm", "Do you want to log out?", QMessageBox::Yes|QMessageBox::No);
+  if (reply == QMessageBox::Yes) {
+    qDebug() << "Yes was clicked";
+    emit log_out();
+  }
 }

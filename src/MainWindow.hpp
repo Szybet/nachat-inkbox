@@ -33,6 +33,9 @@ public:
   explicit MainWindow(matrix::Session &session);
   ~MainWindow();
 
+public slots:
+  void askLogOut();
+
 signals:
   void quit();
   void log_out();
