@@ -90,9 +90,9 @@ build/*
 # Inkbox user apps
 *.isa
 *.isa.dgst
-inkbox_userapp/na-chat/app-bin/*.bin
-inkbox_userapp/na-chat/app-lib/*
-inkbox_userapp/na-chat.zip
+inkbox_userapp/nachat/app-bin/*.bin
+inkbox_userapp/nachat/app-lib/*
+inkbox_userapp/nachat.zip
 
 # just to be sure...
 *.pem

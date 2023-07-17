@@ -1,0 +1,13 @@
+{
+  "app": {
+    "Author": "Szybet",
+    "AuthorContact": "https://github.com/Szybet/nachat-inkbox",
+    "Enabled": true,
+    "ExecPath": "/app-bin/nachat.sh",
+    "IconPath": "/app-misc/nachat.svg",
+    "Name": "nachat",
+    "SupportedDevices": [ "all" ],
+    "RequiredFeatures": [ 0 ] ,
+    "Version": "0.1"
+  }
+}
