@@ -2,6 +2,7 @@
 #define NATIVE_CHAT_JOIN_DIALOG_HPP_
 
 #include <QDialog>
+#include "smallkeyboard.h"
 
 namespace Ui {
 class JoinDialog;
@@ -17,7 +18,8 @@ public:
   QString room();
 
   void accept() override;
-
+  QSize screen;
+  smallkeyboard* keyboard;
 private:
   Ui::JoinDialog *ui;
 };

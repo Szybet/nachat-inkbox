@@ -38,17 +38,25 @@ void showImage::start(QUrl url) {
     }
 
     QPixmap image;
-    image.loadFromData(reply->readAll());
+    QByteArray bytes = reply->readAll();
+    image.loadFromData(bytes);
     image = image.scaledToWidth(QGuiApplication::screens()[0]->geometry().size().width());
-    int limit = QGuiApplication::screens()[0]->geometry().size().height() - ui->pushButton->height() - 70;
-    if(image.height() >= limit) {
-        image = image.scaledToHeight(limit);
+    if(image.isNull() == false) {
+        qDebug() << "image:" << image;
+        int limit = QGuiApplication::screens()[0]->geometry().size().height() - ui->pushButton->height() - 70;
+        if(image.height() >= limit) {
+            image = image.scaledToHeight(limit);
+        }
+        ui->label->setPixmap(image);
+        ui->textBrowser->hide();
+    } else {
+        qDebug() << "Trying text";
+        ui->textBrowser->setPlainText(QString::fromStdString(bytes.toStdString()));
+        ui->label->hide();
     }
-    qDebug() << "image:" << image;
-    ui->label->setPixmap(image);
 
     reply->deleteLater();
-    qDebug() << "Showing image";
+    qDebug() << "Showing file";
 }
 
 void showImage::on_pushButton_clicked()

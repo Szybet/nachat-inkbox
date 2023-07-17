@@ -116,6 +116,9 @@ public:
   QUrl ensure_http(const QUrl &) const;
   // Converts mxc URLs to http URLs on this homeserver, otherwise passes through
 
+  const QUrl homeserver_;
+  const UserID user_id_;
+
 signals:
   void logged_out();
   void error(QString message);
@@ -136,8 +139,6 @@ private:
   };
 
   Matrix &universe_;
-  const QUrl homeserver_;
-  const UserID user_id_;
   QString access_token_;
   lmdb::env env_;
   lmdb::dbi state_db_, room_db_;

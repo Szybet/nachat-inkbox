@@ -1,4 +1,5 @@
 #include "MainWindow.hpp"
+#include "qdir.h"
 #include "ui_MainWindow.h"
 
 #include <algorithm>
@@ -19,6 +20,7 @@
 #include "JoinDialog.hpp"
 #include "MessageBox.hpp"
 #include "utils.hpp"
+#include <QStandardPaths>
 
 MainWindow::MainWindow(matrix::Session &session)
     : ui(new Ui::MainWindow), session_(session),
@@ -33,6 +35,7 @@ MainWindow::MainWindow(matrix::Session &session)
   this->showFullScreen();
 
   ui->status_bar->addPermanentWidget(sync_label_);
+  ui->status_bar->showMessage(session.user_id_.value());
 
   connect(ui->action_log_out, &QAction::triggered, this, &MainWindow::askLogOut);
 
@@ -51,6 +54,17 @@ MainWindow::MainWindow(matrix::Session &session)
         });
       dialog->open();
     });
+
+  connect(ui->actionClean_cache, &QAction::triggered, []() {
+      QString state_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+      qDebug() << "The dir path for cache is:" << state_path;
+      QMessageBox msgBox;
+      msgBox.setText("Cache cleaned. Launch the app again for a fresh restart");
+      msgBox.exec();
+      QDir *dir = new QDir(state_path);
+      dir->removeRecursively();
+      QApplication::quit();
+  });
 
   connect(&session_, &matrix::Session::error, [this](QString msg) {
       qDebug() << "Session error: " << msg;
@@ -73,6 +87,9 @@ MainWindow::MainWindow(matrix::Session &session)
   connect(ui->action_quit, &QAction::triggered, this, &MainWindow::quit);
 
   connect(ui->room_list, &QListView::activated, [this](const QModelIndex &){
+      if(windowAvailable == false) {
+          return void();
+      }
       std::unordered_set<ChatWindow *> windows;
       for(auto index : ui->room_list->selectionModel()->selectedIndexes()) {
         auto &room = *session_.room_from_id(matrix::RoomID{rooms_.data(index, JoinedRoomListModel::IDRole).toString()});
@@ -86,6 +103,7 @@ MainWindow::MainWindow(matrix::Session &session)
             window = windows_.begin()->second;
           } else {
             // Create first window
+            windowAvailable = false;
             window = spawn_chat_window();
           }
         }
@@ -161,6 +179,8 @@ void RoomWindowBridge::check_release(const matrix::RoomID &room) {
 ChatWindow *MainWindow::spawn_chat_window() {
   // We don't create these as children to prevent Qt from hinting to WMs that they should be floating
   auto window = new ChatWindow(thumbnail_cache_);
+  connect(window, &ChatWindow::destroyed, this, &MainWindow::enableWindowsAgain);
+
   connect(window, &ChatWindow::focused, [this, window]() {
       last_focused_ = window;
     });
@@ -187,4 +207,8 @@ void MainWindow::askLogOut() {
     qDebug() << "Yes was clicked";
     emit log_out();
   }
+}
+
+void MainWindow::enableWindowsAgain() {
+  windowAvailable = true;
 }

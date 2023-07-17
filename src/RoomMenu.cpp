@@ -8,13 +8,31 @@
 
 #include "matrix/Session.hpp"
 #include "MessageBox.hpp"
+#include "qapplication.h"
+#include "qscreen.h"
+#include "koboplatformfunctions.h"
 
 RoomMenu::RoomMenu(matrix::Room &room, RoomView *parent) : QMenu(parent), room_(room) {
   {
     auto upload = addAction(QIcon::fromTheme("document-open"), tr("Upload &file..."));
     auto file_dialog = new QFileDialog(parent);
     connect(upload, &QAction::triggered, file_dialog, &QDialog::open);
+    connect(upload, &QAction::triggered, [file_dialog]() {
+        file_dialog->show();
+        file_dialog->move(0, 0);
+        file_dialog->resize(QGuiApplication::screens()[0]->geometry().size());
+        file_dialog->setWindowModality(Qt::WindowModal);
+    });
     connect(file_dialog, &QFileDialog::fileSelected, this, &RoomMenu::upload_file);
+  }
+
+  addSeparator();
+
+  {
+    auto Refresh = addAction(QIcon::fromTheme("refresh"), tr("Refresh screen"));
+    connect(Refresh, &QAction::triggered, [] {
+        KoboPlatformFunctions::doManualRefresh(QRect(QPoint(0, 0), QGuiApplication::screens()[0]->geometry().size()));
+    });
   }
 
   addSeparator();

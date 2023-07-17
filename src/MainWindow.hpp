@@ -32,9 +32,11 @@ class MainWindow : public QMainWindow {
 public:
   explicit MainWindow(matrix::Session &session);
   ~MainWindow();
+  bool windowAvailable = true;
 
 public slots:
   void askLogOut();
+  void enableWindowsAgain();
 
 signals:
   void quit();
