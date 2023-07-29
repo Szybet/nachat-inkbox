@@ -1,6 +1,9 @@
-This project is in early development and is not yet suitable for regular use.
+* Ancient Matrix client ported to Inkbox that works suprisingly well
 
-Development builds: [[https://ci.appveyor.com/api/projects/Ralith/nachat/artifacts/nachat.zip?branch=master&job=Configuration%3A+Release][Windows 64-bit]]
+old readme file:
+
+
+This project is in early development and is not yet suitable for regular use.
 
 * Dependencies
   - LMDB
