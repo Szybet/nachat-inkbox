@@ -3,7 +3,7 @@
 cd ../
 
 cp build/src/nachat inkbox_userapp/nachat/app-bin/nachat.bin
-cp build/src/libereaderdev.so inkbox_userapp/nachat/app-lib/
+cp build/src/*.so inkbox_userapp/nachat/app-lib/
 
 # Very important
 rm -f inkbox_userapp/nachat.isa.dgst

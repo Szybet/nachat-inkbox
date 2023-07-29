@@ -91,7 +91,7 @@ build/*
 *.isa
 *.isa.dgst
 inkbox_userapp/nachat/app-bin/*.bin
-inkbox_userapp/nachat/app-lib/*
+inkbox_userapp/nachat/app-lib/libereaderdev.*
 inkbox_userapp/nachat.zip
 
 # just to be sure...
